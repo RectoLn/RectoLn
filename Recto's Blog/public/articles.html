@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>文章汇总 - Recto's Blog</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    /* 仅保留分类按钮局部样式 */
+   nav.category-nav {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 30px;
+  font-size: 0.85rem;       /* 字号缩小 */
+  color: #999;              /* 文字颜色变浅 */
+  background: transparent;  /* 去掉背景色 */
+  border: none;             /* 去掉边框 */
+  padding: 0;               /* 去掉内边距 */
+  border-top: none;
+  border-bottom: none;
+  box-shadow: none; /* 额外去除阴影 */
+}
+
+nav.category-nav button {
+  background: #fff7f9;
+  border: 1.5px solid #ffccd7;
+  color: #cc6677;
+  padding: 6px 12px;        /* 缩小按钮尺寸 */
+  font-size: 0.85rem;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+nav.category-nav button:hover {
+  background-color: #ffe6ed;
+  color: #aa4455;
+  border-color: #ff99aa;
+}
+
+nav.category-nav button.active {
+  background-color: #ffbfd1;
+  color: #a6314b;
+  border-color: #ff85a2;
+}
+
+  </style>
+</head>
+<body>
+<header>
+  <h1>🥥 Recto's Blog 🥥</h1>
+</header>
+
+<nav class="main-nav">
+  <a href="/index.html" class="nav-link">首页</a>
+  <a href="/articles.html" class="nav-link active">博客</a>
+  <a href="/about.html" class="nav-link">关于我</a>
+  <a href="/guestbook.html" class="nav-link">留言板</a>
+</nav>
+
+
+  <nav class="category-nav" id="categoryNav">
+  <button data-category="all" class="active">All</button>
+  <!-- 其他分类按钮动态生成 -->
+</nav>
+
+  <main class="container" id="articlesContainer">
+    <p>⏳ 加载中...</p>
+  </main>
+
+  <script>
+    let allPosts = [];
+    const container = document.getElementById('articlesContainer');
+    const nav = document.getElementById('categoryNav');
+
+    async function loadCategories() {
+      try {
+        const res = await fetch('/api/posts/categories');
+        const categories = await res.json();
+
+        categories.forEach(cat => {
+          const btn = document.createElement('button');
+          btn.dataset.category = cat;
+          btn.textContent = cat;
+          nav.appendChild(btn);
+        });
+      } catch (err) {
+        console.error('加载分类失败', err);
+        const errorTip = document.createElement('span');
+        errorTip.textContent = '⚠️ 分类加载失败，请刷新重试';
+        errorTip.style.color = '#d00';
+        nav.appendChild(errorTip);
+      }
+    }
+
+    async function fetchArticles() {
+      try {
+        const res = await fetch('/api/posts');
+        allPosts = await res.json();
+        renderArticles('all'); // 默认显示全部
+      } catch (err) {
+        console.error(err);
+        container.innerHTML = '<p>❌ 加载失败，请稍后重试</p>';
+      }
+    }
+
+    function renderArticles(category) {
+      container.innerHTML = '';
+      let filtered = allPosts;
+      if (category !== 'all') {
+        filtered = allPosts.filter(post => post.category === category);
+      }
+      if (filtered.length === 0) {
+        container.innerHTML = '<p>暂无文章</p>';
+        return;
+      }
+      filtered.reverse().forEach(post => {
+        const card = document.createElement('a');
+        card.className = 'card';
+        card.href = `/post.html?id=${post._id}`;
+        card.innerHTML = `
+          <img src="${post.coverImage}" alt="封面图" />
+          <div class="card-content">
+            <h3 class="card-title">${post.title}</h3>
+            <p class="card-date">${new Date(post.createdAt).toLocaleDateString()}</p>
+            <p class="card-summary">${post.summary}</p>
+            <p class="card-category"><em>分类: ${post.category || '未分类'}</em></p>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    nav.addEventListener('click', e => {
+      if (e.target.tagName === 'BUTTON') {
+        // 切换 active 样式
+        nav.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+        e.target.classList.add('active');
+        const category = e.target.dataset.category;
+        renderArticles(category);
+      }
+    });
+
+    fetchArticles();
+    loadCategories();
+  </script>
+</body>
+</html>

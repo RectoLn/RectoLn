@@ -1,0 +1,322 @@
+/* 公共基础样式 */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #fdf8fa;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background: linear-gradient(to right, #ffd6e0, #c2e9fb);
+  padding: 20px;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #333;
+}
+
+nav.main-nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  background: white;
+  padding: 10px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #444;
+  font-weight: bold;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+nav a:hover {
+  background-color: #ffe0ea;
+}
+
+
+nav a.nav-link {
+  text-decoration: none;
+  color: #666;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+nav a.nav-link:hover,
+nav a.nav-link.active {
+  background-color: #ff5d8c;
+  color: white;
+}
+/* 首页文章卡片样式 */
+.container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  transition: transform 0.2s;
+  text-decoration: none;
+  color: inherit;
+}
+.card:hover {
+  transform: scale(1.01);
+}
+.card img {
+  width: 200px;
+  height: 140px;
+  object-fit: cover;
+}
+.card-content {
+  padding: 16px;
+  flex: 1;
+}
+.card-title {
+  font-size: 20px;
+  margin: 0 0 10px;
+  color: #333;
+}
+.card-date {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 8px;
+}
+.card-summary {
+  font-size: 15px;
+  color: #666;
+}
+
+/* 后台表单样式 */
+form {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #fef9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+input, textarea {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #ff7da1;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #ff5d8c;
+}
+
+/* ---------------- Markdown 样式 ---------------- */
+.markdown-body {
+  padding: 20px;
+  border-radius: 12px;
+  background: white;
+  color: #333;
+  line-height: 1.7;
+  max-width: 800px;
+  margin: 30px auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.markdown-body h1, .markdown-body h2, .markdown-body h3 {
+  border-bottom: 1px solid #eaecef;
+  padding-bottom: 0.3em;
+  margin-top: 1.5em;
+}
+
+.markdown-body pre {
+  background: #f6f8fa;
+  padding: 12px;
+  border-radius: 6px;
+  overflow: auto;
+}
+
+.markdown-body code {
+  background: #f0f0f0;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+/* 文章汇总页面列表样式 */
+ul.article-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul.article-list li {
+  margin-bottom: 12px;
+  padding: 12px 16px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: transform 0.2s;
+}
+
+ul.article-list li:hover {
+  transform: translateX(4px);
+}
+
+.article-title {
+  font-size: 18px;
+  color: #333;
+  text-decoration: none;
+  display: inline-block;
+  width: 100%;
+}
+
+.article-title:hover {
+  color: #ff5d8c;
+}
+
+.article-date {
+  font-size: 13px;
+  color: #aaa;
+  margin-top: 4px;
+}
+.category-nav {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.category-nav button {
+  margin: 6px 8px;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: #f2f2f2;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.category-nav button.active {
+  background-color: #ffc1d3;
+  color: #e91e63;
+}
+.category-nav button:hover {
+  background-color: #ffe5ec;
+}
+.card-category {
+  font-size: 12px;
+  color: #ff5d8c;
+  margin-top: 6px;
+  font-style: italic;
+}
+.category-label {
+  display: inline-block;
+  background: #ffe0ec;
+  color: #e91e63;
+  font-size: 13px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-left: 8px;
+}
+/* 首页头像样式 */
+header img.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #fff;
+  box-shadow: 0 0 10px rgba(255, 94, 140, 0.5);
+  margin-bottom: 16px;
+  display: inline-block;
+}
+
+/* 首页导航栏，水平居中平铺 */
+body > nav {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  background: white;
+  padding: 10px 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}
+
+body > nav a {
+  text-decoration: none;
+  color: #666;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+body > nav a:hover,
+body > nav a.active {
+  background-color: #ff5d8c;
+  color: white;
+}
+
+/* 首页推荐文章列表 */
+.articles-list {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* 推荐文章卡片，和已有.card相似，但宽度固定 */
+.articles-list .card {
+  width: 280px;
+  flex-direction: column;
+}
+
+/* “查看更多文章”按钮样式 */
+.more-button {
+  display: block;
+  margin: 30px auto 0;
+  background-color: #ff5d8c;
+  color: white;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  text-align: center;
+  width: max-content;
+  transition: background-color 0.3s;
+  text-decoration: none;
+}
+
+.more-button:hover {
+  background-color: #e0496e;
+}
+
+/* 响应式调整 */
+@media (max-width: 600px) {
+  .articles-list {
+    flex-direction: column;
+    align-items: center;
+  }
+  .articles-list .card {
+    width: 90%;
+  }
+}

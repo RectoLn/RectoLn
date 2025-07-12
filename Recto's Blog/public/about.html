@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>About Me - Recto's Blog</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+   
+    .avatar-wrapper {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      margin: 40px auto;
+    }
+
+    .avatar {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 5px solid #ff7da1;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+    }
+
+    .icons-container {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 260px;
+      height: 260px;
+      animation: rotateIcons 30s linear infinite;
+      transform-origin: center center;
+      z-index: 5;
+    }
+
+    .icons-container a {
+      position: absolute;
+      width: 36px;
+      height: 36px;
+      transform: translate(-50%, -50%);
+      transition: transform 0.3s ease;
+    }
+
+    .icons-container a img {
+      width: 100%;
+      height: 100%;
+      filter: grayscale(80%);
+      transition: filter 0.3s ease, transform 0.3s ease;
+      animation: counterRotate 30s linear infinite;
+    }
+
+    .icons-container a:hover img {
+      filter: none;
+      transform: scale(1.2);
+    }
+
+    @keyframes rotateIcons {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes counterRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(-360deg); }
+    }
+
+    .intro {
+      max-width: 640px;
+      margin: 40px auto;
+      font-size: 1.2rem;
+      line-height: 1.8;
+      text-align: center;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+  <header>
+  <h1>🥥 Recto's Blog 🥥</h1>
+</header>
+
+<nav class="main-nav">
+  <a href="/index.html" class="nav-link">首页</a>
+  <a href="/articles.html" class="nav-link">博客</a>
+  <a href="/about.html" class="nav-link active">关于我</a>
+  <a href="/guestbook.html" class="nav-link">留言板</a>
+</nav>
+
+  <main class="container">
+    <div class="avatar-wrapper">
+      <img class="avatar" src="/images/avatar.jpg" alt="Avatar" />
+      <div id="iconsContainer" class="icons-container"></div>
+    </div>
+
+    <div class="intro">
+      <p>Hey, I’m <strong>Recto</strong> — a passionate data science explorer & coder.  .</p>
+      <p> 
+        Always chasing the next breakthrough in algorithms and AI, I thrive in creativity and deep thinking.  
+        An INFP with a flair for understanding complex systems and transforming data into stories.  
+        When I’m not decoding datasets, I’m tuning into beats or crafting new tech experiments.  
+        Welcome to my digital playground.</p>
+    </div>
+  </main>
+
+  <script>
+    const socialLinks = [
+      { icon: 'github.png', link: 'https://github.com/RectoLn' },
+      { icon: 'bilibili.png', link: 'https://space.bilibili.com/512551013' },
+      { icon: 'zhihu.png', link: 'https://www.zhihu.com/people/lin-zi-yue-66-34' },
+      { icon: 'notion.png', link: 'https://faint-haumea-a9c.notion.site/Recto-Ln-1bcba137e50e44509a6df68e9c5f977d' },
+      { icon: 'email.png', link: 'mailto:RectoLn@outlook.com' },
+      { icon: 'xiaohongshu.png', link: 'https://www.xiaohongshu.com/user/profile/6489986c0000000010034a92' }
+    ];
+
+    const container = document.getElementById('iconsContainer');
+    const radius = 150;
+    const centerX = 130;
+    const centerY = 130;
+
+    socialLinks.forEach((item, index) => {
+      const angle = (2 * Math.PI / socialLinks.length) * index;
+      const x = centerX + radius * Math.cos(angle);
+      const y = centerY + radius * Math.sin(angle);
+
+      const a = document.createElement('a');
+      a.href = item.link;
+      a.target = "_blank";
+      a.style.left = `${x}px`;
+      a.style.top = `${y}px`;
+
+      const img = document.createElement('img');
+      img.src = `/images/icons/${item.icon}`;
+      img.alt = "icon";
+      a.appendChild(img);
+      container.appendChild(a);
+    });
+  </script>
+</body>
+</html>
