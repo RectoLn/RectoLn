@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About Me - Recto's Blog</title>
   <link rel="stylesheet" href="/css/style.css" />
   <style>
@@ -153,7 +154,9 @@
       font-size: 0.95rem;
     }
     
-    @media (max-width: 600px) {
+    /* 仅针对移动端的优化 */
+    @media (max-width: 768px) {
+      /* 头像区域优化 */
       .avatar-wrapper {
         width: 220px;
         height: 220px;
@@ -164,6 +167,24 @@
         height: 150px;
       }
       
+      /* 调整图标容器大小和位置 */
+      .icons-container a {
+        width: 32px;
+        height: 32px;
+      }
+      
+      /* 调整图标半径 */
+      #iconsContainer {
+        --radius: 100px;
+      }
+      
+      /* 内容区域优化 */
+      .about-content {
+        font-size: 1rem;
+        padding: 0 15px;
+      }
+      
+      /* 按钮区域优化 */
       .playground-links {
         flex-direction: column;
         align-items: center;
@@ -171,13 +192,21 @@
       }
       
       .playground-link {
-        width: 180px;
+        width: 80%;
+        max-width: 280px;
         text-align: center;
+        padding: 12px 20px;
       }
-
+      
+      /* 更新日志优化 */
       .update-log {
         padding: 20px 15px;
         margin: 40px auto;
+      }
+      
+      .log-list li {
+        font-size: 0.9rem;
+        padding: 10px 12px;
       }
     }
   </style>
@@ -230,9 +259,10 @@
     ];
 
     const container = document.getElementById('iconsContainer');
-    const radius = 135;
-    const centerX = 130;
-    const centerY = 130;
+    // 使用CSS变量控制半径，便于媒体查询调整
+    const radius = window.innerWidth <= 768 ? 100 : 135;
+    const centerX = window.innerWidth <= 768 ? 110 : 130;
+    const centerY = window.innerWidth <= 768 ? 110 : 130;
 
     socialLinks.forEach((item, index) => {
       const angle = (2 * Math.PI / socialLinks.length) * index;
@@ -250,6 +280,22 @@
       img.alt = item.icon.split('.')[0];
       a.appendChild(img);
       container.appendChild(a);
+    });
+
+    // 窗口大小改变时重新计算图标位置
+    window.addEventListener('resize', function() {
+      const links = document.querySelectorAll('.icons-container a');
+      const newRadius = window.innerWidth <= 768 ? 100 : 135;
+      const newCenterX = window.innerWidth <= 768 ? 110 : 130;
+      const newCenterY = window.innerWidth <= 768 ? 110 : 130;
+      
+      links.forEach((link, index) => {
+        const angle = (2 * Math.PI / links.length) * index;
+        const x = newCenterX + newRadius * Math.cos(angle);
+        const y = newCenterY + newRadius * Math.sin(angle);
+        link.style.left = `${x}px`;
+        link.style.top = `${y}px`;
+      });
     });
 
     async function loadUpdateLog() {
