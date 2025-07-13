@@ -120,15 +120,15 @@
 
     /* 仅针对移动端的优化 */
     @media (max-width: 768px) {
-    /* 控制区域优化 - 改为垂直布局 */
-    #controls {
-      flex-direction: column;
-      gap: 15px;
-      align-items: center;
-      margin-bottom: 20px;
-    }
+      /* 控制区域优化 - 改为垂直布局 */
+      #controls {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+        margin-bottom: 20px;
+      }
 
-    /* 分类和排序区域各自独立 */
+      /* 分类和排序区域各自独立 */
     #controls > div {
       display: flex;
       flex-direction: column;
@@ -137,7 +137,7 @@
       gap: 8px;
     }
 
-    /* 标签样式 */
+      /* 标签样式 */
     #controls span {
       font-weight: 600;
       color: #a6314b;
@@ -147,68 +147,39 @@
       display: block;
     }
 
-    /* 按钮区域优化 */
-    nav.category-nav,
-    nav.sort-nav {
-      width: 100%;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 6px;
-      margin-bottom: 0;
-      padding: 0 10px;
-    }
+      /* 按钮区域优化 */
+      nav.category-nav,
+      nav.sort-nav {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+        margin-bottom: 0;
+      }
 
-    /* 卡片优化 */
-    .card {
-      flex-direction: column;
-      height: auto;
-    }
+      /* 卡片优化 */
+      .card {
+        flex-direction: column;
+        height: auto;
+      }
 
-    .card img {
-      width: 100%;
-      height: 180px;
-    }
+      .card img {
+        width: 100%;
+        height: 180px;
+      }
 
-    .card-content {
-      padding: 12px 16px;
-    }
+      .card-content {
+        padding: 12px 16px;
+      }
 
-    .card-title {
-      font-size: 16px;
-    }
+      .card-title {
+        font-size: 16px;
+      }
 
-    .card-summary {
-      font-size: 13px;
+      .card-summary {
+        font-size: 13px;
+      }
     }
-
-    /* 导航栏优化 */
-    .main-nav {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      padding: 15px;
-    }
-
-    .main-nav a {
-      padding: 8px 16px;
-      font-size: 0.95em;
-      border-radius: 20px;
-      background-color: transparent;
-      color: #333;
-      transition: all 0.3s ease;
-      text-decoration: none;
-    }
-
-    .main-nav a.active {
-      background-color: #ff7da1;
-      color: white;
-    }
-
-    .main-nav a:hover {
-      background-color: rgba(255, 125, 161, 0.1);
-    }
-  }
   </style>
 </head>
 <body>
