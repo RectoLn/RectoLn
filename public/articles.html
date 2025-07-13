@@ -6,26 +6,37 @@
   <link rel="stylesheet" href="/css/style.css" />
   <style>
     /* 仅保留分类按钮局部样式 */
-   nav.category-nav {
+  /* 公共按钮样式 */
+nav.category-nav,
+nav.sort-nav {
   display: flex;
   justify-content: center;
   gap: 8px;
-  margin-bottom: 30px;
-  font-size: 0.85rem;       /* 字号缩小 */
-  color: #999;              /* 文字颜色变浅 */
-  background: transparent;  /* 去掉背景色 */
-  border: none;             /* 去掉边框 */
-  padding: 0;               /* 去掉内边距 */
+  margin-bottom: 30px; /* 两组都用30px，如果排序需要40可以单独覆盖 */
+  font-size: 0.85rem;
+  color: #999;           /* 文字颜色变浅，针对按钮的文字 */
+  background: transparent;
+  border: none;
+  padding: 0;
   border-top: none;
   border-bottom: none;
-  box-shadow: none; /* 额外去除阴影 */
+  box-shadow: none;
 }
 
-nav.category-nav button {
+nav.category-nav {
+  margin-bottom: 30px;
+}
+
+nav.sort-nav {
+  margin-bottom: 30px; /* 也改为30px，保持统一，若要40px单独写 */
+}
+
+nav.category-nav button,
+nav.sort-nav button {
   background: #fff7f9;
   border: 1.5px solid #ffccd7;
   color: #cc6677;
-  padding: 6px 12px;        /* 缩小按钮尺寸 */
+  padding: 6px 12px;
   font-size: 0.85rem;
   border-radius: 16px;
   cursor: pointer;
@@ -33,17 +44,93 @@ nav.category-nav button {
   font-weight: 500;
 }
 
-nav.category-nav button:hover {
+nav.category-nav button:hover,
+nav.sort-nav button:hover {
   background-color: #ffe6ed;
   color: #aa4455;
   border-color: #ff99aa;
 }
 
-nav.category-nav button.active {
+nav.category-nav button.active,
+nav.sort-nav button.active {
   background-color: #ffbfd1;
   color: #a6314b;
   border-color: #ff85a2;
 }
+.card {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row; /* 横向排列：图片在左，内容在右 */
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.2s;
+  height: 150px; /* 固定卡片高度 */
+}
+
+.card:hover {
+  transform: scale(1.01);
+}
+
+.card img {
+  width: 200px;
+  height: 100%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.card-content {
+  padding: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+.card-date {
+  font-size: 12px;
+  color: #999;
+  margin: 6px 0;
+}
+
+.card-summary {
+  font-size: 14px;
+  color: #666;
+  margin: 8px 0;
+  line-height: 1.4;
+}
+
+.card-category {
+  font-size: 12px;
+  color: #ff5d8c;
+  font-style: italic;
+  margin-top: auto;
+}
+@media (max-width: 600px) {
+  .card {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .card img {
+    width: 100%;
+    height: 180px;
+  }
+
+  .card-content {
+    padding: 12px 16px;
+  }
+}
+
 
   </style>
 </head>
@@ -60,90 +147,132 @@ nav.category-nav button.active {
 </nav>
 
 
-  <nav class="category-nav" id="categoryNav">
-  <button data-category="all" class="active">All</button>
-  <!-- 其他分类按钮动态生成 -->
-</nav>
+<div id="controls" style="display: flex; justify-content: center; gap: 40px; margin-bottom: 30px; flex-wrap: wrap; align-items: flex-end;">
+
+  <div style="display: flex; align-items: center; gap: 8px;">
+    <span style="font-weight: 600; color: #a6314b;">分类：</span>
+    <nav class="category-nav" id="categoryNav" style="margin-bottom: 0;">
+      <button data-category="all" class="active">All</button>
+      <!-- 动态分类按钮 -->
+    </nav>
+  </div>
+
+  <div style="display: flex; align-items: flex-end; gap: 8px;">
+    <span style="font-weight: 600; color: #a6314b; line-height: 32px;">排序：</span>
+    <nav class="sort-nav" id="sortNav" style="margin-bottom: 0;">
+      <button data-order="desc" class="active">最新优先</button>
+      <button data-order="asc">最旧优先</button>
+    </nav>
+  </div>
+
+</div>
+
+</div>
 
   <main class="container" id="articlesContainer">
     <p>⏳ 加载中...</p>
   </main>
 
   <script>
-    let allPosts = [];
-    const container = document.getElementById('articlesContainer');
-    const nav = document.getElementById('categoryNav');
+  let allPosts = [];
+  const container = document.getElementById('articlesContainer');
+  const nav = document.getElementById('categoryNav');
+  const sortNav = document.getElementById('sortNav'); // 需要确保sortNav存在
+  let currentSortOrder = 'desc';  // 默认最新优先
 
-    async function loadCategories() {
-      try {
-        const res = await fetch('/api/posts/categories');
-        const categories = await res.json();
+  async function loadCategories() {
+    try {
+      const res = await fetch('/api/posts/categories');
+      const categories = await res.json();
 
-        categories.forEach(cat => {
-          const btn = document.createElement('button');
-          btn.dataset.category = cat;
-          btn.textContent = cat;
-          nav.appendChild(btn);
-        });
-      } catch (err) {
-        console.error('加载分类失败', err);
-        const errorTip = document.createElement('span');
-        errorTip.textContent = '⚠️ 分类加载失败，请刷新重试';
-        errorTip.style.color = '#d00';
-        nav.appendChild(errorTip);
-      }
-    }
-
-    async function fetchArticles() {
-      try {
-        const res = await fetch('/api/posts');
-        allPosts = await res.json();
-        renderArticles('all'); // 默认显示全部
-      } catch (err) {
-        console.error(err);
-        container.innerHTML = '<p>❌ 加载失败，请稍后重试</p>';
-      }
-    }
-
-    function renderArticles(category) {
-      container.innerHTML = '';
-      let filtered = allPosts;
-      if (category !== 'all') {
-        filtered = allPosts.filter(post => post.category === category);
-      }
-      if (filtered.length === 0) {
-        container.innerHTML = '<p>暂无文章</p>';
-        return;
-      }
-      filtered.reverse().forEach(post => {
-        const card = document.createElement('a');
-        card.className = 'card';
-        card.href = `/post.html?id=${post._id}`;
-        card.innerHTML = `
-          <img src="${post.coverImage}" alt="封面图" />
-          <div class="card-content">
-            <h3 class="card-title">${post.title}</h3>
-            <p class="card-date">${new Date(post.createdAt).toLocaleDateString()}</p>
-            <p class="card-summary">${post.summary}</p>
-            <p class="card-category"><em>分类: ${post.category || '未分类'}</em></p>
-          </div>
-        `;
-        container.appendChild(card);
+      categories.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.dataset.category = cat;
+        btn.textContent = cat;
+        nav.appendChild(btn);
       });
+    } catch (err) {
+      console.error('加载分类失败', err);
+      const errorTip = document.createElement('span');
+      errorTip.textContent = '⚠️ 分类加载失败，请刷新重试';
+      errorTip.style.color = '#d00';
+      nav.appendChild(errorTip);
+    }
+  }
+
+  async function fetchArticles() {
+    try {
+      const res = await fetch('/api/posts');
+      allPosts = await res.json();
+      renderArticles('all'); // 默认显示全部
+    } catch (err) {
+      console.error(err);
+      container.innerHTML = '<p>❌ 加载失败，请稍后重试</p>';
+    }
+  }
+
+  function renderArticles(category) {
+    container.innerHTML = '';
+    let filtered = allPosts;
+    if (category !== 'all') {
+      filtered = allPosts.filter(post => post.category === category);
+    }
+    if (filtered.length === 0) {
+      container.innerHTML = '<p>暂无文章</p>';
+      return;
     }
 
-    nav.addEventListener('click', e => {
-      if (e.target.tagName === 'BUTTON') {
-        // 切换 active 样式
-        nav.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
-        e.target.classList.add('active');
-        const category = e.target.dataset.category;
-        renderArticles(category);
-      }
+    // 根据 currentSortOrder 进行排序
+    filtered.sort((a, b) => {
+      const t1 = new Date(a.createdAt);
+      const t2 = new Date(b.createdAt);
+      return currentSortOrder === 'desc' ? t2 - t1 : t1 - t2;
     });
 
-    fetchArticles();
-    loadCategories();
-  </script>
+    filtered.forEach(post => {
+      const card = document.createElement('a');
+      card.className = 'card';
+      card.href = `/post.html?id=${post._id}`;
+      card.innerHTML = `
+        <img src="${post.coverImage}" alt="封面图" />
+        <div class="card-content">
+          <h3 class="card-title">${post.title}</h3>
+          <p class="card-date">${new Date(post.createdAt).toLocaleDateString()}</p>
+          <p class="card-summary">${post.summary}</p>
+          <p class="card-category"><em>分类: ${post.category || '未分类'}</em></p>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  nav.addEventListener('click', e => {
+    if (e.target.tagName === 'BUTTON') {
+      // 切换分类按钮 active 样式
+      nav.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+      e.target.classList.add('active');
+      const category = e.target.dataset.category;
+      renderArticles(category);
+    }
+  });
+
+  if (sortNav) {
+    sortNav.addEventListener('click', e => {
+      if (e.target.tagName === 'BUTTON') {
+        // 切换排序按钮 active 样式
+        sortNav.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+        e.target.classList.add('active');
+        currentSortOrder = e.target.dataset.order;
+        // 重新渲染当前分类文章
+        const currentCategory = nav.querySelector('button.active').dataset.category;
+        renderArticles(currentCategory);
+      }
+    });
+  }
+
+  fetchArticles();
+  loadCategories();
+</script>
+
 </body>
 </html>
