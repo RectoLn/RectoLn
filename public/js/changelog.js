@@ -9,6 +9,15 @@ const status = document.getElementById('status');
 let logs = [];
 let editingIndex = -1;
 
+// 格式化日期为"年/月/日"
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  return `${year}年${month}月${day}日`;
+}
+
 // 加载日志列表
 async function loadLogs() {
   try {
@@ -33,9 +42,13 @@ function renderLogs() {
     const item = document.createElement('div');
     item.className = 'log-item';
 
+    const dateDiv = document.createElement('div');
+    dateDiv.className = 'log-date';
+    dateDiv.textContent = formatDate(log.date);
+
     const contentDiv = document.createElement('div');
     contentDiv.className = 'log-content';
-    contentDiv.textContent = `${log.date} - ${log.content}`;
+    contentDiv.textContent = log.content;
 
     const buttonGroup = document.createElement('div');
     buttonGroup.className = 'log-buttons';
@@ -43,16 +56,17 @@ function renderLogs() {
     const editBtn = document.createElement('button');
     editBtn.className = 'edit-btn';
     editBtn.textContent = '编辑';
-    editBtn.onclick = () => startEdit(i); // ✅ 添加事件
+    editBtn.onclick = () => startEdit(i);
 
     const deleteBtn = document.createElement('button');
     deleteBtn.className = 'delete-btn';
     deleteBtn.textContent = '删除';
-    deleteBtn.onclick = () => deleteLog(i); // ✅ 添加事件
+    deleteBtn.onclick = () => deleteLog(i);
 
     buttonGroup.appendChild(editBtn);
     buttonGroup.appendChild(deleteBtn);
 
+    item.appendChild(dateDiv);
     item.appendChild(contentDiv);
     item.appendChild(buttonGroup);
     logList.appendChild(item);
@@ -64,7 +78,7 @@ function startEdit(index) {
   editingIndex = index;
   logDateInput.value = logs[index].date;
   logContentInput.value = logs[index].content;
-  status.textContent = `✏️ 编辑中：${logs[index].date}`;
+  status.textContent = `✏️ 编辑中：${formatDate(logs[index].date)}`;
 }
 
 // 删除日志
@@ -135,10 +149,9 @@ form.addEventListener('submit', async e => {
 // 页面加载时初始化
 window.onload = loadLogs;
 
-
 document.getElementById('homeLink').addEventListener('click', () => {
-    const confirmExit = confirm('将退出发布者模式并返回首页，是否继续？');
-    if (confirmExit) {
-      window.location.href = '/index.html';
-    }
+  const confirmExit = confirm('将退出发布者模式并返回首页，是否继续？');
+  if (confirmExit) {
+    window.location.href = '/index.html';
+  }
 });

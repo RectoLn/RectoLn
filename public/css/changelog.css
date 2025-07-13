@@ -1,12 +1,13 @@
 body {
-      max-width: 900px;
-      margin: 40px auto;
-      font-family: 'Segoe UI', sans-serif;
-      background:#fdf8fa;
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
+  max-width: 900px;
+  margin: 40px auto;
+  font-family: 'Segoe UI', sans-serif;
+  background:#fdf8fa;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
 ul#logList li {
   display: flex;
   justify-content: space-between;
@@ -22,6 +23,13 @@ ul#logList li {
   padding-right: 10px;
   font-size: 14px;
   color: #333;
+}
+
+.log-date {
+  min-width: 100px;
+  text-align: right;
+  font-size: 13px;
+  color: #888;
 }
 
 .log-buttons {
