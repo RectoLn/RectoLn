@@ -2,40 +2,39 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>文章详情 - Recto's Blog</title>
   <link rel="stylesheet" href="/css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <style>
-  /* 🌥️ 微型云朵样式 - 增强版 */
-  .tiny-cloud {
-    display: inline-block;
-    width: 40px;
-    height: 28px;
-    margin-left: 8px;
-    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 36"><path fill="%2380a0c0" d="M47.5,30c-5,0-9-3.1-10.5-7.5C35.5,20.1,31,17,26,17c-6,0-11,4.8-11,10.8c0,0.5,0,1,0.2,1.5 C12.5,30,10,27.5,10,24.5c0-5,4-9,8.8-9.2C20,11.2,23,8,26.8,8c4.5,0,8.3,3.4,9,7.8C41,11,46,14,46,19.5C46,25,42,30,37,30H47.5z"/></svg>') no-repeat center;
-    cursor: pointer;
-    position: relative;
-    transition: all 0.3s ease; /* 修改为all以支持多属性过渡 */
-    vertical-align: middle;
-    filter: drop-shadow(0 0 0 rgba(102, 168, 255, 0.116)); /* 初始无阴影 */
-  }
-
-  .tiny-cloud:hover {
-    transform: translateY(-2px);
-    filter: drop-shadow(0 0 6px rgba(102, 168, 255, 0.6)); /* 添加蓝色光晕 */
-    animation: pulse-glow 1.5s infinite alternate; /* 添加脉动效果 */
-  }
-
-  /* 新增：光晕脉动动画 */
-  @keyframes pulse-glow {
-    0% {
-      filter: drop-shadow(0 0 4px rgba(102, 168, 255, 0.4));
+    /* 🌥️ 微型云朵样式 - 增强版 */
+    .tiny-cloud {
+      display: inline-block;
+      width: 40px;
+      height: 28px;
+      margin-left: 8px;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 36"><path fill="%2380a0c0" d="M47.5,30c-5,0-9-3.1-10.5-7.5C35.5,20.1,31,17,26,17c-6,0-11,4.8-11,10.8c0,0.5,0,1,0.2,1.5 C12.5,30,10,27.5,10,24.5c0-5,4-9,8.8-9.2C20,11.2,23,8,26.8,8c4.5,0,8.3,3.4,9,7.8C41,11,46,14,46,19.5C46,25,42,30,37,30H47.5z"/></svg>') no-repeat center;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
+      vertical-align: middle;
+      filter: drop-shadow(0 0 0 rgba(102, 168, 255, 0.116));
     }
-    100% {
-      filter: drop-shadow(0 0 8px rgba(102, 168, 255, 0.8));
-    }
-  }
 
+    .tiny-cloud:hover {
+      transform: translateY(-2px);
+      filter: drop-shadow(0 0 6px rgba(102, 168, 255, 0.6));
+      animation: pulse-glow 1.5s infinite alternate;
+    }
+
+    @keyframes pulse-glow {
+      0% {
+        filter: drop-shadow(0 0 4px rgba(102, 168, 255, 0.4));
+      }
+      100% {
+        filter: drop-shadow(0 0 8px rgba(102, 168, 255, 0.8));
+      }
+    }
 
     /* 🌧️ 小雨滴动画 - 多滴效果 */
     .tiny-cloud:hover::before,
@@ -124,6 +123,43 @@
     .back-link:hover {
       background: rgba(128, 160, 192, 0.2);
       transform: translateY(-2px);
+    }
+
+    /* 仅针对移动端的优化 */
+    @media (max-width: 768px) {
+      /* 封面图优化 */
+      .post-cover {
+        height: 220px !important;
+        margin-bottom: 20px !important;
+        border-radius: 0 !important;
+      }
+
+      .post-cover h1 {
+        font-size: 1.6em !important;
+        padding: 20px 15px !important;
+      }
+
+      /* 元信息优化 */
+      .post-meta {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.85em;
+      }
+
+      /* 内容区域优化 */
+      .markdown-body {
+        font-size: 1em;
+        padding: 0 15px;
+        line-height: 1.7;
+      }
+
+      /* 返回链接优化 */
+      .back-link {
+        width: 80%;
+        box-sizing: border-box;
+        text-align: center;
+      }
     }
   </style>
 </head>
