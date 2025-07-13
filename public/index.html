@@ -151,12 +151,36 @@
         height: 350px;
       }
       
+      .avatar-container {
+        width: 160px;
+        height: 160px;
+        margin-bottom: 40px;
+      }
+      
+      .slogan {
+        font-size: 1rem;
+        margin-top: 0;
+      }
       .articles-list {
         flex-direction: column;
         align-items: center;
         gap: 16px;
       }
-    
+      .main-nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0 10px;
+        gap: 5px;
+      }
+      
+      .main-nav a {
+        padding: 8px 12px;
+        font-size: 0.9em;
+        white-space: nowrap;
+        margin: 0;
+      }
+
       .card {
         flex-direction: column;
         width: 92%;
@@ -196,6 +220,8 @@
       object-fit: cover;
       border-radius: 16px 0 0 16px;
     }
+    /* 仅针对导航栏的移动端优化 */
+
   </style>
 </head>
 <body>
