@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>后台管理 - 网站更新日志</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/changelog.css" />
+  <style>
+    body {
+      max-width: 900px;
+      margin: 40px auto;
+      font-family: 'Segoe UI', sans-serif;
+      background:#fdf8fa;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    h1 {
+      color: #ff5d8c;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+      align-items: center;
+    }
+    input[type="date"], input[type="text"] {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      flex: 1;
+      min-width: 140px;
+      font-size: 14px;
+    }
+    input[type="text"] {
+      flex: 3;
+    }
+    button[type="submit"] {
+      padding: 10px 20px;
+      background-color: #ff5d8c;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background-color 0.3s;
+    }
+    button[type="submit"]:hover {
+      background-color: #e0496e;
+    }
+    #status {
+      font-weight: 600;
+      color: #e91e63;
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .log-list {
+      border-top: 2px solid #ffbfd1;
+    }
+
+    .log-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #ffccd7;
+      color: #a6314b;
+    }
+
+    .log-content {
+      flex-grow: 1;
+      padding-right: 20px;
+      word-break: break-word;
+    }
+
+    .log-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      min-width: 150px;
+    }
+
+    .log-buttons button {
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      box-sizing: border-box;
+    }
+
+    
+  </style>
+</head>
+<body>
+  <header>
+  <h1>🥥 Recto's Blog 🥥</h1>
+    </header>
+
+<nav class="main-nav">
+  <a href="javascript:void(0);" id="homeLink" class="nav-link">首页</a>
+  <a href="/admin/admin.html" class="nav-link">写作</a>
+  <a href="/admin/changelog.html" class="nav-link active">日志</a>
+  <a href="/admin/messages.html" class="nav-link">留言</a>
+</nav>
+  <p id="status"></p>
+  <form id="logForm">
+    <input type="date" id="logDate" required />
+    <input type="text" id="logContent" placeholder="更新内容描述" required />
+    <button type="submit">添加 / 更新日志</button>
+  </form>
+
+  <div class="log-list" id="logList">
+    <p>加载中...</p>
+  </div>
+
+  <script type="module" src="/js/changelog.js"></script>
+</body>
+</html>

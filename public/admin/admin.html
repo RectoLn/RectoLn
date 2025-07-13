@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>后台管理 - 网站发布文章</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+     body {
+      max-width: 900px;
+      margin: 40px auto;
+      font-family: 'Segoe UI', sans-serif;
+      background:#fdf8fa;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+    .post-list {
+      max-width: 800px;
+      margin: 30px auto;
+    }
+
+    .post-item {
+      background: #fff8f9;
+      border: 1px solid #eee;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 10px;
+    }
+
+    .post-item h3 {
+      margin: 0 0 6px;
+    }
+
+    .post-item button {
+      margin-right: 8px;
+      padding: 6px 12px;
+      font-size: 14px;
+    }
+
+    .edit-btn {
+      background: #66b8ff;
+      border: none;
+      border-radius: 6px;
+    }
+    .edit-btn:hover {
+      background-color: #4394f7;
+    }
+    .delete-btn {
+      background: #ff5c8a;
+      border: none;
+      border-radius: 6px;
+      color: white;
+    }
+    .delete-btn:hover {
+  background-color: #f72b53;
+}
+  </style>
+</head>
+<body>
+<header>
+  <h1>🥥 Recto's Blog 🥥</h1>
+</header>
+
+<nav class="main-nav">
+  <a href="javascript:void(0);" id="homeLink" class="nav-link">首页</a>
+  <a href="/admin/admin.html" class="nav-link active">写作</a>
+  <a href="/admin/changelog.html" class="nav-link">日志</a>
+  <a href="/admin/messages.html" class="nav-link">留言</a>
+</nav>
+
+
+  <p id="status" style="
+  max-width: 800px;
+  margin: 0 auto 20px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #ef85a8;
+  text-align: center;
+"></p>
+
+  <!-- 发布/编辑表单 -->
+  <form id="postForm">
+    <input type="text" id="title" placeholder="文章标题" required />
+    <input type="text" id="summary" placeholder="文章简介" required />
+    <input type="text" id="coverImage" placeholder="封面图地址（如 img/sample.jpg ）" required />
+
+    <label for="categorySelect">选择分类：</label>
+    <select id="categorySelect" required>
+       <option value="">加载中...</option>
+    </select>
+
+    <div id="newCategoryContainer" style="display: none;">
+      <label for="newCategory">新分类名称：</label>
+      <input type="text" id="newCategory" placeholder="请输入新分类名" />
+    </div>
+
+    <textarea id="content" rows="10" placeholder="文章正文" required></textarea>
+    <button type="submit">发布文章</button>
+  </form>
+
+
+  <!-- 所有文章列表 -->
+  <div class="post-list" id="postList">
+    <h2>🗂️ 已有文章</h2>
+    <p>⏳ 加载中...</p>
+  </div>
+
+  <script>
+    const form = document.getElementById('postForm');
+    const status = document.getElementById('status');
+    const postList = document.getElementById('postList');
+    const categorySelect = document.getElementById('categorySelect');
+    const newCategoryInput = document.getElementById('newCategory');
+    const newCategoryContainer = document.getElementById('newCategoryContainer');
+
+    let editingPostId = null;
+
+    document.getElementById('homeLink').addEventListener('click', () => {
+    const confirmExit = confirm('将退出发布者模式并返回首页，是否继续？');
+    if (confirmExit) {
+      window.location.href = '/index.html';
+    }
+  });
+
+    // 加载分类列表并填充下拉框
+    async function loadCategories() {
+      try {
+        const res = await fetch('/api/posts/categories');
+        const categories = await res.json();
+
+        categorySelect.innerHTML = `
+          <option value="">请选择分类</option>
+          ${categories.map(cat => `<option value="${cat}">${cat}</option>`).join('')}
+          <option value="__custom__">➕ 新建分类</option>
+        `;
+      } catch (err) {
+        categorySelect.innerHTML = '<option value="">加载失败，请刷新</option>';
+        console.error('加载分类失败', err);
+      }
+    }
+
+    // 监听分类选择，显示或隐藏新建分类输入框
+    categorySelect.addEventListener('change', () => {
+      if (categorySelect.value === '__custom__') {
+        newCategoryContainer.style.display = 'block';
+        newCategoryInput.required = true;
+      } else {
+        newCategoryContainer.style.display = 'none';
+        newCategoryInput.value = '';
+        newCategoryInput.required = false;
+      }
+    });
+
+    // 提交（新增或编辑）
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+
+      const selectedCategory = categorySelect.value;
+      const customCategory = newCategoryInput.value.trim();
+      const finalCategory = (selectedCategory === '__custom__' && customCategory) ? customCategory : selectedCategory;
+
+      if (!finalCategory) {
+        status.textContent = '❌ 请填写或选择一个分类';
+        return;
+      }
+
+      const postData = {
+        title: document.getElementById('title').value.trim(),
+        summary: document.getElementById('summary').value.trim(),
+        content: document.getElementById('content').value.trim(),
+        coverImage: document.getElementById('coverImage').value.trim(),
+        category: finalCategory,
+      };
+
+      try {
+        let res;
+        if (editingPostId) {
+          res = await fetch(`/api/posts/${editingPostId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(postData),
+          });
+        } else {
+          res = await fetch('/api/posts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(postData),
+          });
+        }
+
+        if (res.ok) {
+          status.textContent = editingPostId ? '✅ 修改成功！' : '✅ 发布成功！';
+          form.reset();
+          newCategoryContainer.style.display = 'none';
+          newCategoryInput.required = false;
+          editingPostId = null;
+          await loadCategories();
+          await loadPosts();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          status.textContent = '❌ 操作失败，请检查内容';
+        }
+      } catch (err) {
+        console.error(err);
+        status.textContent = '❌ 网络错误';
+      }
+    });
+
+    // 加载文章列表
+    async function loadPosts() {
+      try {
+        const res = await fetch('/api/posts');
+        const posts = await res.json();
+
+        if (!Array.isArray(posts) || posts.length === 0) {
+          postList.innerHTML = '<h2>🗂️ 已有文章</h2><p>暂无文章</p>';
+          return;
+        }
+
+        postList.innerHTML = '<h2>🗂️ 已有文章</h2>';
+        posts.forEach(post => {
+          const div = document.createElement('div');
+          div.className = 'post-item';
+          div.innerHTML = `
+            <h3>${post.title}</h3>
+            <p>📅 ${new Date(post.createdAt).toLocaleDateString()} ｜ 📂 ${post.category || '未分类'}</p>
+            <button class="edit-btn" onclick="editPost('${post._id}')">编辑</button>
+            <button class="delete-btn" onclick="deletePost('${post._id}')">删除</button>
+          `;
+          postList.appendChild(div);
+        });
+      } catch (err) {
+        postList.innerHTML = '<p>❌ 加载文章失败</p>';
+        console.error(err);
+      }
+    }
+
+    // 编辑文章，填充表单
+    async function editPost(id) {
+      try {
+        const res = await fetch(`/api/posts/${id}`);
+        if (!res.ok) throw new Error('文章加载失败');
+        const post = await res.json();
+
+        document.getElementById('title').value = post.title;
+        document.getElementById('summary').value = post.summary;
+        document.getElementById('coverImage').value = post.coverImage;
+        document.getElementById('content').value = post.content;
+
+        // 判断分类是否存在下拉选项
+        const existsInSelect = Array.from(categorySelect.options).some(opt => opt.value === post.category);
+
+        if (existsInSelect) {
+          categorySelect.value = post.category;
+          newCategoryContainer.style.display = 'none';
+          newCategoryInput.value = '';
+          newCategoryInput.required = false;
+        } else {
+          categorySelect.value = '__custom__';
+          newCategoryContainer.style.display = 'block';
+          newCategoryInput.value = post.category || '';
+          newCategoryInput.required = true;
+        }
+
+        editingPostId = post._id;
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        status.textContent = `🛠️ 正在编辑「${post.title}」`;
+      } catch (err) {
+        status.textContent = '❌ 文章加载失败';
+        console.error(err);
+      }
+    }
+
+    // 删除文章
+    async function deletePost(id) {
+      if (!confirm('确认删除这篇文章吗？')) return;
+      try {
+        const res = await fetch(`/api/posts/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+          status.textContent = '🗑️ 删除成功';
+          await loadPosts();
+        } else {
+          status.textContent = '❌ 删除失败';
+        }
+      } catch (err) {
+        status.textContent = '❌ 网络错误';
+        console.error(err);
+      }
+    }
+
+    // 初始化加载
+    window.onload = async () => {
+      await loadCategories();
+      await loadPosts();
+    };
+  </script>
+</body>
+</html>

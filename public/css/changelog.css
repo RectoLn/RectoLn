@@ -1,0 +1,60 @@
+body {
+      max-width: 900px;
+      margin: 40px auto;
+      font-family: 'Segoe UI', sans-serif;
+      background:#fdf8fa;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+ul#logList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+  gap: 10px;
+}
+
+.log-content {
+  flex-grow: 1;
+  word-break: break-word;
+  padding-right: 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+.log-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  min-width: 150px;
+}
+
+.log-buttons button {
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+.edit-btn {
+  background-color: #67b6fc;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #4394f7;
+}
+
+.delete-btn {
+  background-color: #fd6e88;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #ae4056d9;
+}

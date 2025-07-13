@@ -1,0 +1,48 @@
+body {
+      max-width: 900px;
+      margin: 40px auto;
+      font-family: 'Segoe UI', sans-serif;
+      background:#fdf8fa;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+h1 {
+  color: #ff7da1;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#status {
+  text-align: center;
+  color: #e91e63;
+  margin-bottom: 10px;
+}
+
+.message-item {
+  border-bottom: 1px solid #eee;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.message-content {
+  flex-grow: 1;
+  font-size: 14px;
+  color: #444;
+}
+
+.delete-btn {
+  background-color: #ff5c8a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: #e0466f;
+}

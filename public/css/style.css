@@ -279,3 +279,37 @@ button:hover {
     width: 90%;
   }
 }
+
+.update-log {
+  background: #fffafc;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 40px auto;
+  max-width: 800px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.update-log h2 {
+  margin-top: 0;
+  font-size: 24px;
+  color: #cc3366;
+  border-bottom: 1px solid #ffdce5;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.log-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.log-list li {
+  margin-bottom: 12px;
+  font-size: 15px;
+  color: #444;
+  line-height: 1.6;
+}
+
+.log-list li strong {
+  color: #ff5d8c;
+}

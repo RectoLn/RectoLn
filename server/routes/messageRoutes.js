@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Message = require('../models/Message');
 
-// 获取所有留言，时间倒序
+// 获取所有留言，按时间倒序排序
 router.get('/', async (req, res) => {
   try {
     const messages = await Message.find().sort({ createdAt: -1 });
@@ -27,6 +27,19 @@ router.post('/', async (req, res) => {
     res.status(201).json(msg);
   } catch (err) {
     res.status(500).json({ error: '保存留言失败' });
+  }
+});
+
+// 删除留言（后台管理用）
+router.delete('/:id', async (req, res) => {
+  try {
+    const deleted = await Message.findByIdAndDelete(req.params.id);
+    if (!deleted) {
+      return res.status(404).json({ error: '未找到该留言' });
+    }
+    res.json({ message: '删除成功' });
+  } catch (err) {
+    res.status(500).json({ error: '删除失败' });
   }
 });
 

@@ -5,101 +5,126 @@
   <title>Recto's Blog</title>
   <link rel="stylesheet" href="/css/style.css" />
   <style>
-   
-
+    /* 音乐播放器样式 */
+    .music-player {
+      display: none;
+    }
+    
+    /* 修改后的标语样式 - 取消斜体和音符 */
+    .slogan {
+      margin-top: -10px; /* 增加上边距 */
+      font-size: 1.2rem;
+      color: #ff7da1;
+      letter-spacing: 1px;
+      opacity: 0.9;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .slogan:hover {
+      opacity: 1;
+      text-shadow: 0 0 5px rgba(255, 125, 161, 0.3);
+    }
+    
+    /* 头像区域整体下移 */
     .avatar-wrapper {
       position: relative;
       width: 300px;
-      height: 300px;
-      margin: 40px auto;
+      height: 380px; /* 增加高度 */
+      margin: 60px auto 30px; /* 增加上边距，减少下边距 */
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
-
+    
+    /* 波纹容器微调 */
     .avatar-container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
+      position: relative;
       width: 200px;
       height: 200px;
-      transform: translate(-50%, -50%);
+      margin: 0 auto 80px; /* 增加下边距 */
       z-index: 10;
-      pointer-events: auto;
     }
-
+    
+    /* 保持其他原有样式 */
+    .ripple {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 125, 161, 0.3);
+      animation: ripple 3s infinite;
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    @keyframes ripple {
+      0% {
+        transform: scale(0.8);
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.4;
+      }
+      100% {
+        transform: scale(1.5);
+        opacity: 0;
+      }
+    }
+    
+    .ripple:nth-child(2) {
+      animation-delay: 0.5s;
+    }
+    .ripple:nth-child(3) {
+      animation-delay: 1s;
+    }
+    
+    .avatar-container:hover .ripple {
+      animation-duration: 2s;
+      border-width: 3px;
+      border-color: rgba(255, 125, 161, 0.6);
+    }
+    
     .avatar {
+      position: relative;
       width: 100%;
       height: 100%;
       border-radius: 50%;
       border: 5px solid #ff7da1;
       cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: all 0.3s ease;
+      z-index: 10;
+      background-color: white;
+      box-shadow: 0 0 0 rgba(255, 125, 161, 0);
     }
-
+    
     .avatar:hover {
       transform: scale(1.06);
       box-shadow: 0 0 18px rgba(255, 125, 161, 0.7);
       border-color: #ff5d8c;
     }
-
-    .icons-container {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      width: 260px;
-      height: 260px;
-      animation: rotateIcons 30s linear infinite;
-      transform-origin: center center;
-      z-index: 5;
-      pointer-events: none;
-    }
-
-    .icons-container a {
-      position: absolute;
-      width: 36px;
-      height: 36px;
-      transform: translate(-50%, -50%);
-      transition: transform 0.3s ease;
-      pointer-events: auto;
-    }
-
-    .icons-container a img {
-      width: 100%;
-      height: 100%;
-      filter: grayscale(80%);
-      transition: filter 0.3s ease, transform 0.3s ease;
-      animation: counterRotate 30s linear infinite;
-    }
-
-    .icons-container a:hover img {
-      filter: none;
-      transform: scale(1.2);
-    }
-
-    @keyframes rotateIcons {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-
-    @keyframes counterRotate {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(-360deg); }
-    }
-
+    
     .section-title {
       text-align: center;
-      margin-top: 40px;
+      margin-top: 30px; /* 减少上边距 */
     }
-
-  
-.footer-call {
-  text-align: center;
-  margin-top: 30px;
-}
-
-.button-group {
-  display: inline-flex;
-  gap: 25px; /* 控制按钮之间的距离 */
-}
-
+    
+    /* 其他样式保持不变 */
+    .footer-call {
+      text-align: center;
+      margin-top: 30px;
+    }
+    
+    .button-group {
+      display: inline-flex;
+      gap: 25px;
+    }
+    
     .footer-call a {
       display: inline-block;
       margin-top: 12px;
@@ -111,124 +136,135 @@
       font-weight: bold;
       transition: background-color 0.3s;
     }
-
+    
     .footer-call a:hover {
       background-color: #ff4c7f;
     }
+    
     @media (max-width: 768px) {
-  .articles-list {
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .card {
-    flex-direction: column;
-    width: 92%;
-    max-width: 100%;
-    padding-bottom: 10px;
-  }
-
-  .card img {
-    width: 100%;
-    height: 160px;
-    border-radius: 16px 16px 0 0;
-  }
-
-  .card-content {
-    padding: 12px 14px;
-  }
-
-  .card-title {
-    font-size: 1.15em;
-    margin-bottom: 6px;
-  }
-
-  .card-summary {
-    font-size: 0.95em;
-    color: #555;
-  }
-
-  .card-date,
-  .card-category {
-    font-size: 0.8em;
-  }
-}
-  .card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 16px 0 0 16px;
-  }
+      .ripple {
+        display: none;
+      }
+      
+      .avatar-wrapper {
+        margin: 40px auto 20px;
+        height: 350px;
+      }
+      
+      .articles-list {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+      }
+    
+      .card {
+        flex-direction: column;
+        width: 92%;
+        max-width: 100%;
+        padding-bottom: 10px;
+      }
+    
+      .card img {
+        width: 100%;
+        height: 160px;
+        border-radius: 16px 16px 0 0;
+      }
+    
+      .card-content {
+        padding: 12px 14px;
+      }
+    
+      .card-title {
+        font-size: 1.15em;
+        margin-bottom: 6px;
+      }
+    
+      .card-summary {
+        font-size: 0.95em;
+        color: #555;
+      }
+    
+      .card-date,
+      .card-category {
+        font-size: 0.8em;
+      }
+    }
+    
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 16px 0 0 16px;
+    }
   </style>
 </head>
 <body>
   <header>
-  <h1>🥥 Recto's Blog 🥥</h1>
-</header>
+    <h1>🥥 Recto's Blog 🥥</h1>
+  </header>
 
-<nav class="main-nav">
-  <a href="/index.html" class="nav-link active">首页</a>
-  <a href="/articles.html" class="nav-link">博客</a>
-  <a href="/about.html" class="nav-link">关于我</a>
-  <a href="/guestbook.html" class="nav-link">留言板</a>
-</nav>
+  <nav class="main-nav">
+    <a href="/index.html" class="nav-link active">首页</a>
+    <a href="/articles.html" class="nav-link">博客</a>
+    <a href="/about.html" class="nav-link">关于</a>
+    <a href="/guestbook.html" class="nav-link">留言</a>
+  </nav>
 
   <main class="container">
+    <audio id="bgMusic" class="music-player">
+      <source src="/lifehack.mp3" type="audio/mpeg">
+      您的浏览器不支持音频元素。
+    </audio>
+
     <div class="avatar-wrapper">
       <div class="avatar-container">
         <img class="avatar" src="/images/avatar.jpg" alt="Avatar" onclick="location.href='/about.html'" />
+        <div class="ripple"></div>
+        <div class="ripple"></div>
+        <div class="ripple"></div>
       </div>
-      <div id="iconsContainer" class="icons-container"></div>
+      <div class="slogan" id="musicSlogan">「愛とかノンフィクション。」</div>
     </div>
 
-    <h2 class="section-title">推荐文章</h2>
+    <h2 class="section-title">Newest Blog</h2>
     <div id="recommendations" class="articles-list">
       <p>⏳ 加载中...</p>
     </div>
 
-
     <div class="footer-call">
-  <div class="button-group">
-    <a href="/articles.html" class="more-button">查看更多文章</a>
-    <a href="/guestbook.html" class="more-button">前往留言板</a>
-  </div>
-</div>
-
-
+      <div class="button-group">
+        <a href="/articles.html" class="more-button">更多博客</a>
+        <a href="/guestbook.html" class="more-button">前往留言</a>
+      </div>
+    </div>
   </main>
 
   <script>
-    const socialLinks = [
-      { icon: 'github.png', link: 'https://github.com/RectoLn' },
-      { icon: 'bilibili.png', link: 'https://space.bilibili.com/512551013' },
-      { icon: 'zhihu.png', link: 'https://www.zhihu.com/people/lin-zi-yue-66-34' },
-      { icon: 'notion.png', link: 'https://faint-haumea-a9c.notion.site/Recto-Ln-1bcba137e50e44509a6df68e9c5f977d' },
-      { icon: 'email.png', link: 'mailto:RectoLn@outlook.com' },
-      { icon: 'xiaohongshu.png', link: 'https://www.xiaohongshu.com/user/profile/6489986c0000000010034a92' }
-    ];
+    const musicPlayer = document.getElementById('bgMusic');
+    const musicSlogan = document.getElementById('musicSlogan');
+    let isPlaying = false;
 
-    const container = document.getElementById('iconsContainer');
-    const radius = 150;
-    const centerX = 130;
-    const centerY = 130;
+    musicSlogan.addEventListener('click', function() {
+      if (isPlaying) {
+        musicPlayer.pause();
+        musicPlayer.currentTime = 0;
+        isPlaying = false;
+        musicSlogan.style.textShadow = 'none';
+      } else {
+        musicPlayer.play()
+          .then(() => {
+            isPlaying = true;
+            musicSlogan.style.textShadow = '0 0 8px rgba(255, 125, 161, 0.5)';
+          })
+          .catch(error => {
+            console.error('播放失败:', error);
+          });
+      }
+    });
 
-    socialLinks.forEach((item, index) => {
-      const angle = (2 * Math.PI / socialLinks.length) * index;
-      const x = centerX + radius * Math.cos(angle);
-      const y = centerY + radius * Math.sin(angle);
-
-      const a = document.createElement('a');
-      a.href = item.link;
-      a.target = "_blank";
-      a.style.left = `${x}px`;
-      a.style.top = `${y}px`;
-
-      const img = document.createElement('img');
-      img.src = `/images/icons/${item.icon}`;
-      img.alt = "icon";
-      a.appendChild(img);
-      container.appendChild(a);
+    musicPlayer.addEventListener('ended', function() {
+      isPlaying = false;
+      musicSlogan.style.textShadow = 'none';
     });
 
     async function loadRecommended() {

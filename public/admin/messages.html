@@ -1,0 +1,30 @@
+<!-- public/admin/messages.html -->
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <title>后台管理 - 留言管理</title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/messages.css" />
+</head>
+<body>
+    
+<header>
+  <h1>🥥 Recto's Blog 🥥</h1>
+</header>
+
+<nav class="main-nav">
+  <a href="javascript:void(0);" id="homeLink" class="nav-link">首页</a>
+  <a href="/admin/admin.html" class="nav-link">写作</a>
+  <a href="/admin/changelog.html" class="nav-link">日志</a>
+  <a href="/admin/messages.html" class="nav-link active">留言</a>
+</nav>
+  <p id="status"></p>
+
+  <div class="message-list" id="messageList">
+    <p>加载中...</p>
+  </div>
+
+  <script type="module" src="/js/messages.js"></script>
+</body>
+</html>
