@@ -185,6 +185,20 @@ button:hover {
   margin: 10px 0;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
+.markdown-body table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.markdown-body th, .markdown-body td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.markdown-body th {
+  background-color: #f9f9f9;
+  font-weight: bold;
+}
 
 /* 分类导航 */
 .category-nav {
