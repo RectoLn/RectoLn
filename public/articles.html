@@ -120,33 +120,39 @@
 
     /* 仅针对移动端的优化 */
     @media (max-width: 768px) {
-      /* 控制区域优化 */
+      /* 控制区域优化 - 改为垂直布局 */
       #controls {
         flex-direction: column;
         gap: 15px;
-        align-items: center;
+        align-items: stretch;
         margin-bottom: 20px;
       }
 
-      /* 分类和排序标签优化 */
+      /* 分类和排序区域各自独立 */
       #controls > div {
+        display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 5px;
+        gap: 8px;
       }
 
+      /* 标签样式 */
       #controls span {
-        line-height: 1.5;
+        font-weight: 600;
+        color: #a6314b;
         margin-bottom: 5px;
+        width: 100%;
+        text-align: center;
       }
 
       /* 按钮区域优化 */
       nav.category-nav,
       nav.sort-nav {
+        width: 100%;
         flex-wrap: wrap;
         justify-content: center;
         gap: 6px;
-        margin-bottom: 15px;
+        margin-bottom: 0;
       }
 
       /* 卡片优化 */

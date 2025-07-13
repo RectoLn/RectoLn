@@ -2,6 +2,7 @@
 <html lang="zh">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Recto's Blog</title>
   <link rel="stylesheet" href="/css/style.css" />
   <style>
@@ -9,10 +10,9 @@
     .music-player {
       display: none;
     }
-    
-    /* 修改后的标语样式 - 取消斜体和音符 */
+
     .slogan {
-      margin-top: -10px; /* 增加上边距 */
+      margin-top: -10px;
       font-size: 1.2rem;
       color: #ff7da1;
       letter-spacing: 1px;
@@ -21,35 +21,32 @@
       cursor: pointer;
       position: relative;
     }
-    
+
     .slogan:hover {
       opacity: 1;
       text-shadow: 0 0 5px rgba(255, 125, 161, 0.3);
     }
-    
-    /* 头像区域整体下移 */
+
     .avatar-wrapper {
       position: relative;
       width: 300px;
-      height: 380px; /* 增加高度 */
-      margin: 60px auto 30px; /* 增加上边距，减少下边距 */
+      height: 380px;
+      margin: 60px auto 30px;
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
     }
-    
-    /* 波纹容器微调 */
+
     .avatar-container {
       position: relative;
       width: 200px;
       height: 200px;
-      margin: 0 auto 80px; /* 增加下边距 */
+      margin: 0 auto 80px;
       z-index: 10;
     }
-    
-    /* 保持其他原有样式 */
+
     .ripple {
       position: absolute;
       top: 0;
@@ -62,36 +59,23 @@
       opacity: 0;
       pointer-events: none;
     }
-    
+
     @keyframes ripple {
-      0% {
-        transform: scale(0.8);
-        opacity: 0;
-      }
-      50% {
-        opacity: 0.4;
-      }
-      100% {
-        transform: scale(1.5);
-        opacity: 0;
-      }
+      0% { transform: scale(0.8); opacity: 0; }
+      50% { opacity: 0.4; }
+      100% { transform: scale(1.5); opacity: 0; }
     }
-    
-    .ripple:nth-child(2) {
-      animation-delay: 0.5s;
-    }
-    .ripple:nth-child(3) {
-      animation-delay: 1s;
-    }
-    
+
+    .ripple:nth-child(2) { animation-delay: 0.5s; }
+    .ripple:nth-child(3) { animation-delay: 1s; }
+
     .avatar-container:hover .ripple {
       animation-duration: 2s;
       border-width: 3px;
       border-color: rgba(255, 125, 161, 0.6);
     }
-    
+
     .avatar {
-      position: relative;
       width: 100%;
       height: 100%;
       border-radius: 50%;
@@ -102,29 +86,28 @@
       background-color: white;
       box-shadow: 0 0 0 rgba(255, 125, 161, 0);
     }
-    
+
     .avatar:hover {
       transform: scale(1.06);
       box-shadow: 0 0 18px rgba(255, 125, 161, 0.7);
       border-color: #ff5d8c;
     }
-    
+
     .section-title {
       text-align: center;
-      margin-top: 30px; /* 减少上边距 */
+      margin-top: 30px;
     }
-    
-    /* 其他样式保持不变 */
+
     .footer-call {
       text-align: center;
       margin-top: 30px;
     }
-    
+
     .button-group {
       display: inline-flex;
       gap: 25px;
     }
-    
+
     .footer-call a {
       display: inline-block;
       margin-top: 12px;
@@ -136,92 +119,153 @@
       font-weight: bold;
       transition: background-color 0.3s;
     }
-    
+
     .footer-call a:hover {
       background-color: #ff4c7f;
     }
-    
+
+    /* 卡片样式（桌面端默认） */
+    .articles-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    .card {
+      display: flex;
+      width: 700px;
+      background-color: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    .card img {
+      width: 240px;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 16px 0 0 16px;
+    }
+
+    .card-content {
+      padding: 20px;
+      flex: 1;
+    }
+
+    .card-title {
+      font-size: 1.4em;
+      margin-bottom: 8px;
+    }
+
+    .card-summary {
+      font-size: 1em;
+      margin: 8px 0;
+    }
+
+    .card-date,
+    .card-category {
+      font-size: 0.85em;
+      color: #777;
+    }
+
+    /* 📱 移动端优化 */
     @media (max-width: 768px) {
       .ripple {
         display: none;
       }
-      
+
       .avatar-wrapper {
         margin: 40px auto 20px;
-        height: 350px;
+        height: auto;
       }
-      
+
       .avatar-container {
         width: 160px;
         height: 160px;
-        margin-bottom: 40px;
+        margin-bottom: 30px;
       }
-      
+
       .slogan {
-        font-size: 1rem;
-        margin-top: 0;
+        font-size: 0.95rem;
+        margin-top: 6px;
+        text-align: center;
       }
+
       .articles-list {
         flex-direction: column;
         align-items: center;
-        gap: 16px;
-      }
-      .main-nav {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
+        gap: 20px;
         padding: 0 10px;
-        gap: 5px;
-      }
-      
-      .main-nav a {
-        padding: 8px 12px;
-        font-size: 0.9em;
-        white-space: nowrap;
-        margin: 0;
       }
 
       .card {
         flex-direction: column;
         width: 92%;
         max-width: 100%;
-        padding-bottom: 10px;
+        border-radius: 14px;
       }
-    
+
       .card img {
         width: 100%;
         height: 160px;
-        border-radius: 16px 16px 0 0;
+        border-radius: 14px 14px 0 0;
       }
-    
+
       .card-content {
-        padding: 12px 14px;
+        padding: 14px 16px;
       }
-    
+
       .card-title {
         font-size: 1.15em;
         margin-bottom: 6px;
       }
-    
+
       .card-summary {
         font-size: 0.95em;
         color: #555;
       }
-    
+
       .card-date,
       .card-category {
         font-size: 0.8em;
+        margin-top: 6px;
+        display: block;
+      }
+
+      .main-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+        padding: 10px;
+      }
+
+      .main-nav a {
+        padding: 6px 10px;
+        font-size: 0.9em;
+        border-radius: 16px;
+      }
+
+      .button-group {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .footer-call a {
+        width: 80%;
+        max-width: 240px;
+        font-size: 0.95em;
+        padding: 10px 14px;
       }
     }
-    
-    .card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 16px 0 0 16px;
-    }
-    /* 仅针对导航栏的移动端优化 */
-
   </style>
 </head>
 <body>
@@ -270,25 +314,23 @@
     const musicSlogan = document.getElementById('musicSlogan');
     let isPlaying = false;
 
-    musicSlogan.addEventListener('click', function() {
+    musicSlogan.addEventListener('click', function () {
       if (isPlaying) {
         musicPlayer.pause();
         musicPlayer.currentTime = 0;
         isPlaying = false;
         musicSlogan.style.textShadow = 'none';
       } else {
-        musicPlayer.play()
-          .then(() => {
-            isPlaying = true;
-            musicSlogan.style.textShadow = '0 0 8px rgba(255, 125, 161, 0.5)';
-          })
-          .catch(error => {
-            console.error('播放失败:', error);
-          });
+        musicPlayer.play().then(() => {
+          isPlaying = true;
+          musicSlogan.style.textShadow = '0 0 8px rgba(255, 125, 161, 0.5)';
+        }).catch(error => {
+          console.error('播放失败:', error);
+        });
       }
     });
 
-    musicPlayer.addEventListener('ended', function() {
+    musicPlayer.addEventListener('ended', function () {
       isPlaying = false;
       musicSlogan.style.textShadow = 'none';
     });
