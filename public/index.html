@@ -89,16 +89,22 @@
       margin-top: 40px;
     }
 
-    .footer-call {
-      text-align: center;
-      margin: 60px 0 30px;
-    }
+  
+.footer-call {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.button-group {
+  display: inline-flex;
+  gap: 25px; /* 控制按钮之间的距离 */
+}
 
     .footer-call a {
       display: inline-block;
       margin-top: 12px;
       padding: 10px 20px;
-      background-color: #ff7da1;
+      background-color: #fe608d;
       color: white;
       border-radius: 30px;
       text-decoration: none;
@@ -107,7 +113,7 @@
     }
 
     .footer-call a:hover {
-      background-color: #ff5d8c;
+      background-color: #ff4c7f;
     }
     @media (max-width: 768px) {
   .articles-list {
@@ -181,12 +187,15 @@
       <p>⏳ 加载中...</p>
     </div>
 
-    <a href="/articles.html" class="more-button">查看更多文章</a>
 
     <div class="footer-call">
-      <p>💌 想说点什么？欢迎来留言板看看！</p>
-      <a href="/guestbook.html">前往留言板</a>
-    </div>
+  <div class="button-group">
+    <a href="/articles.html" class="more-button">查看更多文章</a>
+    <a href="/guestbook.html" class="more-button">前往留言板</a>
+  </div>
+</div>
+
+
   </main>
 
   <script>
