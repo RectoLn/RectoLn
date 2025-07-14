@@ -13,26 +13,26 @@
   width: 40px;
   height: 28px;
   margin-left: 8px;
-  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32"><path d="M30,15 Q35,15 35,20 Q35,25 30,25 Q30,28 25,28 Q20,28 20,25 Q15,28 10,28 Q5,28 5,25 Q0,25 0,20 Q0,15 5,15 Q5,12 10,12 Q12,8 18,8 Q24,8 26,12 Q30,12 30,15 Z" fill="%237aa8d9"/><ellipse cx="10" cy="10" rx="5" ry="5" fill="%237aa8d9"/><ellipse cx="20" cy="8" rx="6" ry="6" fill="%237aa8d9"/><ellipse cx="30" cy="10" rx="5" ry="5" fill="%237aa8d9"/></svg>') no-repeat center;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 32"><path d="M30,15 Q35,15 35,20 Q35,25 30,25 Q30,28 25,28 Q20,28 20,25 Q15,28 10,28 Q5,28 5,25 Q0,25 0,20 Q0,15 5,15 Q5,12 10,12 Q12,8 18,8 Q24,8 26,12 Q30,12 30,15 Z" fill="%23c7e3ff"/><ellipse cx="10" cy="10" rx="5" ry="5" fill="%23c7e3ff"/><ellipse cx="20" cy="8" rx="6" ry="6" fill="%23c7e3ff"/><ellipse cx="29.1" cy="11" rx="5.0" ry="5.0" fill="%23c7e3ff"/></svg>') no-repeat center;
   cursor: pointer;
   position: relative;
   transition: all 0.3s ease;
   vertical-align: middle;
-  filter: drop-shadow(0 0 0 rgba(102, 168, 255, 0.116));
+  filter: drop-shadow(0 0 0 rgba(255, 102, 186, 0.295));
 }
 
     .tiny-cloud:hover {
       transform: translateY(-2px);
-      filter: drop-shadow(0 0 6px rgba(102, 168, 255, 0.23));
+      filter: drop-shadow(0 0 6px rgba(255, 102, 173, 0.23));
       animation: pulse-glow 1.5s infinite alternate;
     }
 
     @keyframes pulse-glow {
       0% {
-        filter: drop-shadow(0 0 4px rgba(102, 168, 255, 0.4));
+        filter: drop-shadow(0 0 4px rgba(102, 176, 255, 0.4));
       }
       100% {
-        filter: drop-shadow(0 0 8px rgba(102, 168, 255, 0.8));
+        filter: drop-shadow(0 0 8px rgba(102, 161, 255, 0.8));
       }
     }
 
@@ -149,13 +149,13 @@
         font-size: 0.85em;
       }
 
-      /* 内容区域优化 */
       .markdown-body {
         font-size: 1em;
         padding: 0 15px;
+        padding-top: 5px; /* 单独设置顶部padding */
         line-height: 1.7;
-        padding-bottom: 1px;
-      }
+        padding-bottom: 15px;
+}
 
       /* 返回链接优化 */
       .back-link {
