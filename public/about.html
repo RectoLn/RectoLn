@@ -299,21 +299,23 @@
     });
 
     async function loadUpdateLog() {
-      const list = document.getElementById('logList');
-      try {
-        const res = await fetch('/api/changelog');
-        const logs = await res.json();
-        list.innerHTML = '';
-        logs.forEach(log => {
-          const li = document.createElement('li');
-          li.innerHTML = `<strong>${log.date}:</strong> ${log.content}`;
-          list.appendChild(li);
-        });
-      } catch (err) {
-        list.innerHTML = '<li>❌ Failed to load updates</li>';
-        console.error('Update log error:', err);
-      }
-    }
+  const list = document.getElementById('logList');
+  try {
+    const res = await fetch('/api/logs'); // ✅ 新路径
+    const logs = await res.json();
+    list.innerHTML = '';
+    logs.forEach(log => {
+      const d = new Date(log.date);
+      const dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+      const li = document.createElement('li');
+      li.innerHTML = `<strong>${dateStr}:</strong> ${log.content}`;
+      list.appendChild(li);
+    });
+  } catch (err) {
+    list.innerHTML = '<li>❌ Failed to load updates</li>';
+    console.error('Update log error:', err);
+  }
+}
 
     loadUpdateLog();
   </script>

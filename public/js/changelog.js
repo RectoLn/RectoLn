@@ -5,11 +5,12 @@ const logDateInput = document.getElementById('logDate');
 const logContentInput = document.getElementById('logContent');
 const logList = document.getElementById('logList');
 const status = document.getElementById('status');
+const homeBtn = document.getElementById('homeLink');
 
 let logs = [];
-let editingIndex = -1;
+let editingId = null;
 
-// 格式化日期为"年/月/日"
+// 格式化日期为 "年/月/日"
 function formatDate(dateString) {
   const date = new Date(dateString);
   const year = date.getFullYear();
@@ -21,24 +22,24 @@ function formatDate(dateString) {
 // 加载日志列表
 async function loadLogs() {
   try {
-    const res = await fetch('/api/changelog');
+    const res = await fetch('/api/logs');
     if (!res.ok) throw new Error('加载失败');
     logs = await res.json();
     renderLogs();
   } catch (e) {
-    logList.innerHTML = '<p style="color:#d00;">加载日志失败，请刷新重试。</p>';
+    logList.innerHTML = '<p style="color:#d00;">❌ 加载失败，请刷新重试。</p>';
   }
 }
 
-// 渲染日志列表
+// 渲染日志
 function renderLogs() {
-  if (logs.length === 0) {
+  if (!logs.length) {
     logList.innerHTML = '<p>暂无更新日志</p>';
     return;
   }
 
   logList.innerHTML = '';
-  logs.forEach((log, i) => {
+  logs.forEach(log => {
     const item = document.createElement('div');
     item.className = 'log-item';
 
@@ -56,12 +57,12 @@ function renderLogs() {
     const editBtn = document.createElement('button');
     editBtn.className = 'edit-btn';
     editBtn.textContent = '编辑';
-    editBtn.onclick = () => startEdit(i);
+    editBtn.onclick = () => startEdit(log);
 
     const deleteBtn = document.createElement('button');
     deleteBtn.className = 'delete-btn';
     deleteBtn.textContent = '删除';
-    deleteBtn.onclick = () => deleteLog(i);
+    deleteBtn.onclick = () => deleteLog(log._id);
 
     buttonGroup.appendChild(editBtn);
     buttonGroup.appendChild(deleteBtn);
@@ -74,33 +75,31 @@ function renderLogs() {
 }
 
 // 开始编辑
-function startEdit(index) {
-  editingIndex = index;
-  logDateInput.value = logs[index].date;
-  logContentInput.value = logs[index].content;
-  status.textContent = `✏️ 编辑中：${formatDate(logs[index].date)}`;
+function startEdit(log) {
+  editingId = log._id;
+  logDateInput.value = log.date;
+  logContentInput.value = log.content;
+  status.textContent = `✏️ 正在编辑：${formatDate(log.date)}`;
 }
 
 // 删除日志
-async function deleteLog(index) {
+async function deleteLog(id) {
   if (!confirm('确认删除该日志吗？')) return;
   try {
-    const res = await fetch(`/api/changelog/${index}`, {
-      method: 'DELETE',
-    });
+    const res = await fetch(`/api/logs/${id}`, { method: 'DELETE' });
     if (!res.ok) throw new Error('删除失败');
-    await loadLogs();
     status.textContent = '🗑️ 删除成功';
+    editingId = null;
     form.reset();
-    editingIndex = -1;
+    await loadLogs();
   } catch (e) {
     status.textContent = '❌ 删除失败';
   }
 }
 
-// 新增日志
+// 添加日志
 async function addLog(log) {
-  const res = await fetch('/api/changelog', {
+  const res = await fetch('/api/logs', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(log),
@@ -108,9 +107,9 @@ async function addLog(log) {
   if (!res.ok) throw new Error('添加失败');
 }
 
-// 编辑日志
-async function updateLog(index, log) {
-  const res = await fetch(`/api/changelog/${index}`, {
+// 修改日志
+async function updateLog(id, log) {
+  const res = await fetch(`/api/logs/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(log),
@@ -118,7 +117,7 @@ async function updateLog(index, log) {
   if (!res.ok) throw new Error('修改失败');
 }
 
-// 表单提交事件
+// 提交表单
 form.addEventListener('submit', async e => {
   e.preventDefault();
   const date = logDateInput.value;
@@ -130,10 +129,10 @@ form.addEventListener('submit', async e => {
   }
 
   try {
-    if (editingIndex >= 0) {
-      await updateLog(editingIndex, { date, content });
+    if (editingId) {
+      await updateLog(editingId, { date, content });
       status.textContent = '✅ 修改成功';
-      editingIndex = -1;
+      editingId = null;
     } else {
       await addLog({ date, content });
       status.textContent = '✅ 添加成功';
@@ -141,17 +140,19 @@ form.addEventListener('submit', async e => {
 
     form.reset();
     await loadLogs();
-  } catch {
+  } catch (err) {
+    console.error(err);
     status.textContent = '❌ 操作失败';
   }
 });
 
-// 页面加载时初始化
-window.onload = loadLogs;
-
-document.getElementById('homeLink').addEventListener('click', () => {
+// 返回首页按钮
+homeBtn.addEventListener('click', () => {
   const confirmExit = confirm('将退出发布者模式并返回首页，是否继续？');
   if (confirmExit) {
     window.location.href = '/index.html';
   }
 });
+
+// 初始化
+window.onload = loadLogs;

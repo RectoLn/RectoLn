@@ -7,7 +7,7 @@ const dotenv = require('dotenv');
 // 路由模块
 const postRoutes = require('./routes/postRoutes');
 const messageRoutes = require('./routes/messageRoutes');
-const changelogRoutes = require('./routes/changelogRoutes');  // ✅ 新增：更新日志路由
+const logRoutes = require('./routes/logRoutes');
 
 dotenv.config();
 
@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 // API 路由挂载
 app.use('/api/posts', postRoutes);
 app.use('/api/messages', messageRoutes);
-app.use('/api/changelog', changelogRoutes);  // ✅ 挂载更新日志路由
+app.use('/api/logs', logRoutes);
 
 // 静态文件服务（用于托管前端页面）
 app.use(express.static('public'));
