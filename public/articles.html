@@ -6,7 +6,7 @@
   <title>文章汇总 - Recto's Blog</title>
   <link rel="stylesheet" href="/css/style.css" />
   <style>
-    /* 公共按钮样式 */
+    /* 公共按钮样式（保持不变） */
     nav.category-nav{
       display: flex;
       justify-content: center;
@@ -36,14 +36,6 @@
       box-shadow: none;
     }
 
-    nav.category-nav {
-      margin-bottom: 30px;
-    }
-
-    nav.sort-nav {
-      margin-bottom: 30px;
-    }
-
     nav.category-nav button,
     nav.sort-nav button {
       background: #fff7f9;
@@ -71,6 +63,7 @@
       border-color: #ff85a2;
     }
 
+    /* 卡片样式优化（重点调整） */
     .card {
       background: #fff;
       border-radius: 14px;
@@ -78,37 +71,42 @@
       margin-bottom: 20px;
       overflow: hidden;
       display: flex;
-      flex-direction: row;
+      flex-direction: column; /* 改为垂直布局 */
       text-decoration: none;
       color: inherit;
       transition: transform 0.2s;
-      height: 150px;
+      height: auto; /* 高度自适应内容 */
     }
 
     .card:hover {
-      transform: scale(1.01);
+      transform: scale(1.01); /* 悬停轻微放大 */
     }
 
     .card img {
-      width: 200px;
-      height: 100%;
-      object-fit: cover;
-      flex-shrink: 0;
+      width: 100%; /* 图片宽度占满卡片 */
+      height: 180px; /* 桌面端固定高度 */
+      object-fit: cover; /* 保持图片比例裁剪 */
+      flex-shrink: 0; /* 防止图片被压缩 */
     }
 
     .card-content {
       padding: 16px;
-      flex: 1;
+      flex: 1; /* 内容区域占据剩余空间 */
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: space-between; /* 内容顶部对齐 */
     }
 
     .card-title {
       font-size: 18px;
       font-weight: bold;
-      margin: 0;
+      margin: 0 0 8px 0;
       color: #333;
+      /* 标题过长时截断 */
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2; /* 最多显示2行 */
+      overflow: hidden;
     }
 
     .card-date {
@@ -122,82 +120,67 @@
       color: #666;
       margin: 8px 0;
       line-height: 1.4;
+      /* 摘要过长时滚动 */
+      overflow-y: auto;
+      max-height: 100px; /* 限制最大高度 */
+      scrollbar-width: thin; /* Firefox滚动条样式 */
+      scrollbar-color: #ff7da1 #f0f0f0; /* 滚动条颜色 */
+    }
+
+    .card-summary::-webkit-scrollbar {
+      width: 6px;
+    }
+    .card-summary::-webkit-scrollbar-track {
+      background: #f0f0f0;
+      border-radius: 3px;
+    }
+    .card-summary::-webkit-scrollbar-thumb {
+      background: #ff7da1;
+      border-radius: 3px;
     }
 
     .card-category {
       font-size: 12px;
       color: #ff5d8c;
       font-style: italic;
-      margin-top: auto;
+      margin-top: auto; /* 固定在内容区域底部 */
+      padding-top: 8px; /* 增加顶部间距 */
+      /* 分类栏背景模糊效果 */
+      backdrop-filter: blur(1px);
+      -webkit-backdrop-filter: blur(1px);
+      border-radius: 4px;
+      background-color: rgba(255, 255, 255, 0.9);
     }
 
     /* 仅针对移动端的优化 */
     @media (max-width: 768px) {
-      /* 控制区域优化 - 改为垂直布局 */
-      #controls {
-        flex-direction: column;
-        gap: 15px;
-        align-items: stretch;
-        margin-bottom: 20px;
-      }
-
-      /* 分类和排序区域各自独立 */
-    #controls > div {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      gap: 8px;
-    }
-
-      /* 标签样式 */
-    #controls span {
-      font-weight: 600;
-      color: #a6314b;
-      margin-bottom: 5px;
-      text-align: center;
-      width: 100%;
-      display: block;
-    }
-
-      /* 按钮区域优化 */
-      nav.category-nav{
-        width: 100%;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 2px;
-        margin-bottom: 0;
-      }
-
-      nav.sort-nav {
-        width: 100%;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 16px;
-        margin-bottom: 0;
-      }
-
-      /* 卡片优化 */
+      /* 卡片适配小屏幕 */
       .card {
-        flex-direction: column;
-        height: auto;
+        border-radius: 12px; /* 更小的圆角 */
+        margin-bottom: 15px; /* 更紧凑的间距 */
       }
 
       .card img {
-        width: 100%;
-        height: 180px;
+        height: 150px; /* 移动端更矮的图片 */
       }
 
       .card-content {
-        padding: 12px 16px;
+        padding: 12px 14px; /* 更小的内边距 */
       }
 
       .card-title {
-        font-size: 16px;
+        font-size: 16px; /* 更小的标题字体 */
       }
 
       .card-summary {
-        font-size: 13px;
+        font-size: 13px; /* 更小的摘要字体 */
+        max-height: 80px; /* 更小的摘要最大高度 */
+        -webkit-line-clamp: 3; /* 最多显示3行 */
+      }
+
+      .card-category {
+        font-size: 11px; /* 更小的分类字体 */
+        padding-top: 6px; /* 更小的顶部间距 */
       }
     }
   </style>
