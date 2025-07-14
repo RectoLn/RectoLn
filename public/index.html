@@ -180,6 +180,7 @@
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 1; /* 最多显示1行 */
+      line-clamp: 1; /* 标准属性，增强兼容性 */
       overflow: hidden;
       transition: all 0.3s ease;
       /* 小巧背景样式 */
@@ -228,6 +229,7 @@
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2; /* 最多显示2行 */
+      line-clamp: 2; /* 标准属性，增强兼容性 */
       overflow: hidden;
     }
 
@@ -300,6 +302,7 @@
       .card-title {
         font-size: 1.2em; /* 更小字体 */
         -webkit-line-clamp: 2; /* 保持2行截断 */
+        line-clamp: 2; /* 标准属性，增强兼容性 */
       }
 
       /* 日期显示优化（移动端更紧凑） */
