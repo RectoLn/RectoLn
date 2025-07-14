@@ -202,11 +202,15 @@
     }
 
     .articles-list {
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-      padding: 0 10px;
-    }
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px; /* 减少间距 */
+  margin-top: 20px;
+  max-width: 1500px; /* 增加最大宽度 */
+  margin-left: auto;
+  margin-right: auto;
+}
 
     .card {
       flex-direction: column;
@@ -336,7 +340,7 @@
           return;
         }
 
-        posts = posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 3);
+        posts = posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 6);
         container.innerHTML = '';
 
         posts.forEach(post => {

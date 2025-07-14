@@ -7,11 +7,24 @@
   <link rel="stylesheet" href="/css/style.css" />
   <style>
     /* 公共按钮样式 */
-    nav.category-nav,
+    nav.category-nav{
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      margin-bottom: 30px;
+      font-size: 0.85rem;
+      color: #999;
+      background: transparent;
+      border: none;
+      padding: 0;
+      border-top: none;
+      border-bottom: none;
+      box-shadow: none;
+    }
     nav.sort-nav {
       display: flex;
       justify-content: center;
-      gap: 8px;
+      gap: 25px;
       margin-bottom: 30px;
       font-size: 0.85rem;
       color: #999;
@@ -148,12 +161,19 @@
     }
 
       /* 按钮区域优化 */
-      nav.category-nav,
+      nav.category-nav{
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2px;
+        margin-bottom: 0;
+      }
+
       nav.sort-nav {
         width: 100%;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 6px;
+        gap: 16px;
         margin-bottom: 0;
       }
 
