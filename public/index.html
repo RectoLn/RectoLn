@@ -135,15 +135,16 @@
 
     .card {
       display: flex;
-      width: 700px;
+      width: 700px; /* 桌面端固定宽度 */
+      height: 500px; /* 桌面端固定高度 */
+      flex-direction: column;
       background-color: #fff;
       border-radius: 16px;
-      overflow: hidden;
+      overflow: hidden; /* 溢出内容隐藏 */
       text-decoration: none;
       color: inherit;
       box-shadow: 0 4px 12px rgba(0,0,0,0.06);
       transition: transform 0.3s ease;
-      
     }
 
     .card:hover {
@@ -152,114 +153,161 @@
 
     .card img {
       width: 100%;
-      height: 54%;
-      object-fit: cover;
+      height: 40%; /* 保持图片原始比例 */
+      object-fit: cover; /* 确保图片填充区域 */
       border-radius: 16px 0 0 0;
     }
 
     .card-content {
-      padding: 20px;
-      flex: 1;
+      padding: 12px;
+      flex: 1; /* 内容区域占据剩余空间 */
+      display: flex;
+      flex-direction: column; /* 垂直排列子元素 */
+      position: relative; /* 为分类栏定位 */
+      overflow: hidden; /* 防止内容溢出卡片 */
+    }
+
+    /* 分类栏样式（小巧固定） */
+    .card-category {
+      margin-top: auto; /* 关键：推至内容区域底部 */
+      padding: 6px 10px; /* 减小内边距 */
+      border-top: 1px solid rgba(0, 0, 0, 0.05); /* 顶部边框分隔 */
+      font-size: 0.88em; /* 减小字体大小 */
+      color: #ff9797;
+      position: relative; /* 为z-index定位 */
+      z-index: 2; /* 确保在内容上方 */
+      /* 分类文字截断 */
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1; /* 最多显示1行 */
+      overflow: hidden;
+      transition: all 0.3s ease;
+      /* 小巧背景样式 */
+      background-color: rgb(255, 255, 255);
+      backdrop-filter: blur(1px); /* 轻微模糊效果 */
+      -webkit-backdrop-filter: blur(1px); /* Safari兼容 */
+      border-radius: 4px; /* 圆角 */
+    }
+
+    /* 分类栏悬停动画 */
+    .card:hover .card-category {
+      transform: translateY(-1px); /* 轻微上移 */
+      padding-bottom: 8px; /* 调整底部内边距 */
+    }
+
+    /* 简介区域滚动优化 */
+    .card-summary {
+      font-size: 1em;
+      line-height: 1.6;
+      flex: 1; /* 摘要占据剩余空间 */
+      /* 摘要过长时滚动 */
+      overflow-y: auto;
+      max-height: 200px; /* 限制最大高度（卡片总高600px - 分类栏约40px） */
+      scrollbar-width: thin; /* Firefox滚动条样式 */
+      scrollbar-color: #fbb4c855 #f0f0f0; /* 滚动条颜色 */
+      padding-right: 4px; /* 避免文字贴边 */
+    }
+
+    /* 自定义滚动条样式（可选） */
+    .card-summary::-webkit-scrollbar {
+      width: 6px;
+    }
+    .card-summary::-webkit-scrollbar-track {
+      background: #f0f0f0;
+      border-radius: 3px;
+    }
+    .card-summary::-webkit-scrollbar-thumb {
+      background: #ff7da1;
+      border-radius: 3px;
     }
 
     .card-title {
       font-size: 1.4em;
       margin-bottom: 8px;
+      /* 标题过长时截断 */
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2; /* 最多显示2行 */
+      overflow: hidden;
     }
 
-    .card-summary {
-      font-size: 1em;
-      margin: 8px 0;
-    }
-
-    .card-date,
-    .card-category {
+    .card-date {
       font-size: 0.85em;
       color: #777;
+      margin-bottom: 8px; /* 日期与摘要间距 */
+      /* 日期过长时截断 */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%; /* 确保不超出容器 */
+    }
+
+    /* 扩展按钮样式 */
+    .expand-btn {
+      font-size: 0.85em;
+      color: #ff7da1;
+      cursor: pointer;
+      margin-top: 4px;
+      display: inline-block;
     }
 
     /* 📱 移动端优化 */
-  @media (max-width: 768px) {
-    .ripple {
-      display: none;
-    }
+    @media (max-width: 768px) {
+      /* 导航栏保持不变 */
+      .main-nav {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        padding: 10px 0;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      }
 
-    .avatar-wrapper {
-      margin: 40px auto 20px;
-      height: auto;
-    }
+      /* 卡片宽度调整为90%（最大700px保持桌面端比例） */
+      .card {
+        width: 90%;
+        max-width: 700px; /* 保持桌面端最大宽度 */
+        height: auto; /* 高度自适应内容 */
+        margin-bottom: 20px; /* 增加卡片间距 */
+      }
 
-    .avatar-container {
-      width: 160px;
-      height: 160px;
-      margin-bottom: 30px;
-    }
+      /* 图片高度调整为30%（移动端更紧凑） */
+      .card img {
+        height: 30%;
+      }
 
-    .slogan {
-      font-size: 0.95rem;
-      margin-top: 6px;
-      text-align: center;
-    }
+      /* 内容区域内边距减小（节省空间） */
+      .card-content {
+        padding: 8px;
+      }
 
-    .articles-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px; /* 减少间距 */
-  margin-top: 20px;
-  max-width: 1500px; /* 增加最大宽度 */
-  margin-left: auto;
-  margin-right: auto;
-}
+      /* 分类栏进一步优化（更小巧） */
+      .card-category {
+        padding: 4px 8px; /* 更小内边距 */
+        font-size: 0.8em; /* 更小字体 */
+        border-top: 1px solid rgba(0, 0, 0, 0.03); /* 更浅边框 */
+      }
 
-    .card {
-      flex-direction: column;
-      width: 92%;
-      max-width: 100%;
-      border-radius: 14px;
-    }
+      /* 简介区域优化（更易滚动） */
+      .card-summary {
+        max-height: 150px; /* 更小最大高度 */
+        font-size: 0.95em; /* 更小字体 */
+        padding-right: 3px; /* 更小右侧内边距 */
+        scrollbar-width: none; /* 隐藏Firefox滚动条（可选） */
+      }
 
-    .card img {
-      width: 100%;
-      height: 160px;
-      border-radius: 14px 14px 0 0;
-    }
+      /* 标题截断调整（移动端显示更友好） */
+      .card-title {
+        font-size: 1.2em; /* 更小字体 */
+        -webkit-line-clamp: 2; /* 保持2行截断 */
+      }
 
-    .card-content {
-      padding: 14px 16px;
+      /* 日期显示优化（移动端更紧凑） */
+      .card-date {
+        font-size: 0.75em; /* 更小字体 */
+        margin-bottom: 6px; /* 更小间距 */
+      }
     }
-
-    .card-title {
-      font-size: 1.15em;
-      margin-bottom: 6px;
-    }
-
-    .card-summary {
-      font-size: 0.95em;
-      color: #555;
-    }
-
-    .card-date,
-    .card-category {
-      font-size: 0.8em;
-      margin-top: 6px;
-      display: block;
-    }
-
-    /* 修改导航栏样式与第二个文件一致 */
-    
-    .button-group {
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .footer-call a {
-      width: 80%;
-      max-width: 240px;
-      font-size: 0.95em;
-      padding: 10px 14px;
-    }
-  }
   </style>
 </head>
 <body>
@@ -358,13 +406,101 @@
           `;
           container.appendChild(card);
         });
+        
+        // 等待所有图片加载完成后应用文本截断
+        const images = document.querySelectorAll('.card img');
+        Promise.all([...images].map(img => {
+          if (img.complete) return Promise.resolve();
+          return new Promise(resolve => {
+            img.addEventListener('load', resolve);
+            img.addEventListener('error', resolve); // 即使加载失败也继续处理
+          });
+        })).then(() => {
+          applyDynamicClamp();
+        });
       } catch (err) {
         console.error(err);
         container.innerHTML = '<p>❌ 加载失败，请稍后重试</p>';
       }
     }
 
-    loadRecommended();
+    function applyDynamicClamp() {
+      const cards = document.querySelectorAll('.card');
+      
+      cards.forEach(card => {
+        const content = card.querySelector('.card-content');
+        const title = card.querySelector('.card-title');
+        const date = card.querySelector('.card-date');
+        const summary = card.querySelector('.card-summary');
+        const category = card.querySelector('.card-category');
+
+        // 重置样式以确保动态计算准确
+        [title, summary].forEach(el => {
+          el.style.removeProperty('-webkit-line-clamp');
+        });
+      });
+
+      // 使用requestAnimationFrame确保布局更新后计算
+      requestAnimationFrame(() => {
+        cards.forEach(card => {
+          const content = card.querySelector('.card-content');
+          const title = card.querySelector('.card-title');
+          const date = card.querySelector('.card-date');
+          const summary = card.querySelector('.card-summary');
+          const category = card.querySelector('.card-category');
+
+          // 计算内容区域可用高度（减去内边距）
+          const contentHeight = content.clientHeight;
+          const paddingTop = parseFloat(getComputedStyle(content).paddingTop);
+          const paddingBottom = parseFloat(getComputedStyle(content).paddingBottom);
+          const availableHeight = contentHeight - paddingTop - paddingBottom;
+
+          // 计算标题高度
+          const titleHeight = title.clientHeight;
+          
+          // 计算日期高度
+          const dateHeight = date.clientHeight;
+          
+          // 分类栏高度（固定值，根据实际样式调整）
+          const categoryHeight = 32; // 匹配.card-category的实际高度（padding+border+字体）
+          
+          // 剩余高度给摘要（确保分类栏可见）
+          const remainingHeight = availableHeight - titleHeight - dateHeight - categoryHeight;
+          
+          // 摘要最大行数（根据剩余高度计算）
+          const lineHeight = parseFloat(getComputedStyle(summary).lineHeight) || 20;
+          const maxSummaryLines = Math.max(1, Math.floor(remainingHeight / lineHeight));
+          
+          // 应用截断
+          summary.style.webkitLineClamp = maxSummaryLines;
+        });
+      });
+    }
+
+    // 窗口加载完成后初始化
+    window.addEventListener('load', () => {
+      // 加载推荐文章
+      loadRecommended();
+      
+      // 处理图片加载后的布局调整
+      const images = document.querySelectorAll('.card img');
+      images.forEach(img => {
+        img.addEventListener('load', applyDynamicClamp);
+        img.addEventListener('error', applyDynamicClamp); // 加载失败时也调整
+      });
+    });
+
+    // 窗口大小变化时重新计算
+    window.addEventListener('resize', debounce(applyDynamicClamp, 100));
+
+    // 防抖函数
+    function debounce(func, wait) {
+      let timeout;
+      return function() {
+        clearTimeout(timeout);
+        timeout = setTimeout(func, wait);
+      };
+    }
   </script>
 </body>
 </html>
