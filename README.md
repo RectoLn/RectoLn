@@ -1,17 +1,10 @@
 
-## 🥥 Recto's Github
-
-## 📮 联系我
+## Contact Me
 
 * GitHub: [@RectoLn](https://github.com/RectoLn)
-* B站: [Recto](https://space.bilibili.com/512551013)
-* 知乎: [林子越](https://www.zhihu.com/people/lin-zi-yue-66-34)
+* Bilibili: [Recto](https://space.bilibili.com/512551013)
 * Email：[RectoLn](RectoLn@outlook.com)
-* 更多见博客[Recto’s Blog](https://rectos-blog.onrender.com)
----
+* More in [Recto’s Blog](https://rectos-blog.onrender.com)
 
-## 📜 License
-
-MIT © RectoLn
 
 
